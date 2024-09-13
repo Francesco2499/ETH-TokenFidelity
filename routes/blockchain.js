@@ -4,7 +4,7 @@ const debug = require('debug')('app:routes');
 
 debug('FidelityToken Blockchain routes');
 
-const BlockchainController = require('../../controllers/blockchain');
+const BlockchainController = require('../controllers/blockchain');
 
 
 // Endpoint per ottenere il saldo

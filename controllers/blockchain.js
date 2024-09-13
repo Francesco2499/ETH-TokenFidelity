@@ -1,5 +1,5 @@
 const debug = require('debug')('app:controllers:blockchain');
-const BlockchainService = require('../../services/blockchain');
+const BlockchainService = require('../services/blockchain');
  
 const BlockchainController = {
     // Funzione per generare token (mint)
