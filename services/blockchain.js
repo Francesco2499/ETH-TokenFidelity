@@ -11,7 +11,7 @@ const BlockchainService = {
             // Chiama la funzione del contratto per mintare nuovi token
             const mint = await coin.mintTokens(receiver, amount);
             debug("Mint success: ", mint);
-            return res.json({ success: true, mint });
+            return res.json({ success: true, mint: mint.toString() });
         } catch (error) {
             debug("Errore nella generazione dei token: ", error);
             return res.status(500).json({ error: 'Errore nella generazione dei token' });
@@ -25,11 +25,9 @@ const BlockchainService = {
         try {
             // Chiama la funzione del contratto per ottenere il saldo
             const balance = await coin.getBalance(address);
-            debug("Balance: ", balance);
-            return res.json({ success: true, balance });
-        } catch (error) {
-            debug("Errore nel recupero del saldo: ", error);
-            return res.status(500).json({ error: 'Errore nel recupero del saldo' });
+            return res.json({ success: true, balance: balance.toString() });
+        } catch (err) {
+            return res.status(500).json({ error: 'Errore nel recupero del saldo' + err });
         }
     },
  
@@ -41,7 +39,7 @@ const BlockchainService = {
             // Chiama la funzione del contratto per trasferire i token
             const transaction = await coin.transferTokens(receiver, amount);
             debug("Transfer success: ", transaction);
-            return res.json({ success: true, transaction });
+            return res.json({ success: true, transaction: transaction.toString() });
         } catch (error) {
             debug("Errore nel trasferimento dei token: ", error);
             return res.status(500).json({ error: 'Errore nel trasferimento dei token' });

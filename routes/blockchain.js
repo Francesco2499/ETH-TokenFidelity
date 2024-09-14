@@ -9,10 +9,10 @@ debug('FidelityToken Blockchain routes');
 router.route('/showBalance').post(BlockchainController.getBalance);
 
 // Endpoint per trasferire token
-router.route('/transfer').post(BlockchainController.transfer);
+router.route('/transferTokens').post(BlockchainController.transferTokens);
 
 // Endpoint per mintare nuovi token (solo per il creatore del contratto)
-router.route('/mintTokens').post(BlockchainController.mintTokens);
+router.route('/mintTokens').post(BlockchainController.generateTokens);
 
 
 module.exports = router;
