@@ -4,6 +4,9 @@ pragma solidity >= 0.7.1 < 0.9.0;
 // SPDX-License-Identifier: MIT
 
 pragma solidity >=0.7.1 <0.9.0;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 contract SampleCoin {
@@ -18,8 +21,11 @@ contract SampleCoin {
     event Transfer(address indexed from, address indexed to, uint256 value);
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     constructor() public {
 =======
+=======
+>>>>>>> Stashed changes
     // Constructor sets the minter (creator of the contract)
     constructor() {
 >>>>>>> Stashed changes

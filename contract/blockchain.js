@@ -115,39 +115,20 @@ class Coin {
     }
 
     // Function used to transfer tokens
-    async transferTokens(receiver, amount) {
-        if (!isValidAddress(receiver)) {
-            debug("Invalid address");
-            return false;
-        }
-
-        if (!isValidAmount(amount)) {
-            debug("Invalid amount");
-            return false;
-        }
-
-        var contract = new this.web3.eth.Contract(this.ABI, this.contractAddress);
-
-        const query = contract.methods.transfer(receiver, value);
-    const encodedABI = query.encodeABI();
-
-    let signedTxn = await web3.eth.accounts.signTransaction({
-        nonce: await web3.eth.getTransactionCount(senderAddress),
-        to: contractAddress,
-        data: encodedABI,
-        gasPrice: await web3.eth.getGasPrice(),
-        gas: 2000000,
-    }, privateKey);
-
-    web3.eth.sendSignedTransaction(signedTxn.rawTransaction).then((receipt) => {
-        console.log(receipt);
-    })
-        return await contract.methods.transfer(receiver, amount).send({ from: this.mainAccount, gas: 6721975, gasPrice: 20000000000 }, (err, data) => {
-            debug("-------------- SEND --------------");
-            debug(data);
-            debug("-------------------------------------");
-            return data;
-        });
+    async transferTokens(recipient, amount) {
+        const data = contract.methods.transferTokens(recipient, amount).encodeABI();
+    
+        const tx = {
+            from: '0xDD335FD9196b4fb0E4E62606afc17c1b909AC7F9',
+            to: contractAddress,
+            gas: 6721975, gasPrice: 20000000000,
+            data: data
+        };
+    
+        const signedTx = await web3.eth.accounts.signTransaction(tx, '0x08bb6f89c2059b2f917a340afacb875af37edb6aa6e2f0cffb12e71a2cd2e7cf');
+        const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+    
+        console.log('Transaction receipt: ', receipt);
     }
 }
 
