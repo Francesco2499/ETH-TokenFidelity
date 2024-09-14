@@ -1,18 +1,8 @@
-<<<<<<< Updated upstream
-pragma solidity >= 0.7.1 < 0.9.0;
-=======
 // SPDX-License-Identifier: MIT
 
 pragma solidity >=0.7.1 <0.9.0;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
-contract SampleCoin {
+contract FidelityCoin {
 
     // Define the owner (minter)
     address public minter;
@@ -23,18 +13,8 @@ contract SampleCoin {
     // Define the Transfer event (standard ERC-20)
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    constructor() public {
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     // Constructor sets the minter (creator of the contract)
     constructor() {
->>>>>>> Stashed changes
         minter = msg.sender;
     }
 
