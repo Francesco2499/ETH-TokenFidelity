@@ -1,6 +1,8 @@
+// SPDX-License-Identifier: MIT
+
 pragma solidity >= 0.7.1 < 0.9.0;
 
-contract SampleCoin {
+contract FidelityCoin {
 
     //Define owner
     address public minter;
@@ -11,7 +13,7 @@ contract SampleCoin {
     //Define sent event
     event Sent(address from, address to, uint amount);
 
-    constructor() public {
+    constructor() {
         minter = msg.sender;
     }
 
