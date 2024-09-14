@@ -115,6 +115,7 @@ class Coin {
     }
 
     // Function used to transfer tokens
+<<<<<<< Updated upstream
     async transferTokens(recipient, amount) {
         const data = contract.methods.transferTokens(recipient, amount).encodeABI();
     
@@ -129,6 +130,41 @@ class Coin {
         const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
     
         console.log('Transaction receipt: ', receipt);
+=======
+    async transferTokens(receiver, amount) {
+        if (!isValidAddress(receiver)) {
+            debug("Invalid address");
+            return false;
+        }
+
+        if (!isValidAmount(amount)) {
+            debug("Invalid amount");
+            return false;
+        }
+
+        var contract = new this.web3.eth.Contract(this.ABI, this.contractAddress);
+
+        const query = contract.methods.transfer(receiver, value);
+    const encodedABI = query.encodeABI();
+
+    let signedTxn = await web3.eth.accounts.signTransaction({
+        nonce: await web3.eth.getTransactionCount(senderAddress),
+        to: contractAddress,
+        data: encodedABI,
+        gasPrice: await web3.eth.getGasPrice(),
+        gas: 2000000,
+    }, privateKey);
+
+    web3.eth.sendSignedTransaction(signedTxn.rawTransaction).then((receipt) => {
+        console.log(receipt);
+    })
+        return await contract.methods.transfer(receiver, amount).send({ from: this.mainAccount, gas: 6721975, gasPrice: 20000000000 }, (err, data) => {
+            debug("-------------- SEND --------------");
+            debug(data);
+            debug("-------------------------------------");
+            return data;
+        });
+>>>>>>> Stashed changes
     }
 }
 

@@ -5,6 +5,9 @@ pragma solidity >= 0.7.1 < 0.9.0;
 
 pragma solidity >=0.7.1 <0.9.0;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -22,8 +25,11 @@ contract SampleCoin {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     constructor() public {
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     // Constructor sets the minter (creator of the contract)
