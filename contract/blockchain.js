@@ -115,23 +115,22 @@ class Coin {
     }
 
     // Function used to transfer tokens
-    async transferTokens(recipient, amount) {
+    async transferTokens(sender, privateKey, recipient, amount) {
         var contract = new this.web3.eth.Contract(this.ABI, this.contractAddress);
 
         //const amountInWei = this.web3.utils.toWei(amount, 'ether');
         const data = contract.methods.transfer(recipient, amount).encodeABI();
     
         const tx = {
-            from: '0xb44C91EEE2AeE0C69226170640F328e71Dc38416',
+            from: sender,
             to: this.contractAddress,
             gas: 6721975, gasPrice: 20000000000,
             data: data
         };
     
-        const signedTx = await this.web3.eth.accounts.signTransaction(tx, '0x14864d93e32a3a73a20aff39acddde38ed56b547c5e4006f02c27e03d0b88b33');
-        const receipt = await this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+        const signedTx = await this.web3.eth.accounts.signTransaction(tx, privateKey);
+        return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
     
-        console.log('Transaction receipt: ', receipt);
     }
 }
 

@@ -1,6 +1,8 @@
 const coin = require('../contract/blockchain');
 const debug = require('debug')('app:services:blockchain');
- 
+const CryptoJS = require('crypto-js');
+const encryptionKey = "secure_encryption_key"; // Deve essere lo stesso del FE
+
 const BlockchainService = {
  
     // Funzione per generare token (mint)
@@ -33,11 +35,20 @@ const BlockchainService = {
  
     // Funzione per trasferire token
     transferTokens: async (req, res) => {
-        const { receiver, amount } = req.body;
+        const { sender, encryptedPrivateKey, receiver, amount } = req.body;
  
         try {
             // Chiama la funzione del contratto per trasferire i token
-            const transaction = await coin.transferTokens(receiver, amount);
+            // Decripta la chiave privata
+            const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, encryptionKey);
+            const privateKey = bytes.toString(CryptoJS.enc.Utf8);
+
+            // Assicurati che la chiave privata sia stata decrittata correttamente
+            if (!privateKey) {
+                return res.status(400).send('Decryption failed');
+            }
+
+            const transaction = await coin.transferTokens(sender, privateKey, receiver, amount);
             debug("Transfer success: ", transaction);
             return res.json({ success: true, transaction: transaction.toString() });
         } catch (error) {
