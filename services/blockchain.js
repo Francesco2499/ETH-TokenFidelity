@@ -35,20 +35,10 @@ const BlockchainService = {
  
     // Funzione per trasferire token
     transferTokens: async (req, res) => {
-        const { sender, encryptedPrivateKey, receiver, amount } = req.body;
+        const { receiver, amount } = req.body;
  
         try {
-            // Chiama la funzione del contratto per trasferire i token
-            // Decripta la chiave privata
-            const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, encryptionKey);
-            const privateKey = bytes.toString(CryptoJS.enc.Utf8);
-
-            // Assicurati che la chiave privata sia stata decrittata correttamente
-            if (!privateKey) {
-                return res.status(400).send('Decryption failed');
-            }
-
-            const transaction = await coin.transferTokens(sender, privateKey, receiver, amount);
+            const transaction = await coin.transferTokens(receiver, amount);
             debug("Transfer success: ", transaction);
             return res.json({ success: true, transaction: transaction.toString() });
         } catch (error) {
