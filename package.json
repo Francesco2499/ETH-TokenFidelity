@@ -4,18 +4,27 @@
   "description": "A token-based fidelity program using Ethereum",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js", 
-    "dev": "nodemon server.js", 
+    "start": "node server.js ",
+    "dev": "nodemon server.js",
+    "start:FE": "serve ./interface_FE -l 3001",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["ethereum", "ERC20", "blockchain"],
+  "keywords": [
+    "ethereum",
+    "ERC20",
+    "blockchain"
+  ],
   "author": "Francesco Denaro, Piero Galata'",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
     "debug": "^4.3.4",
+    "dotenv": "^16.4.5",
     "express": "^4.21.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "solc": "^0.8.27",
+    "web3": "^4.12.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

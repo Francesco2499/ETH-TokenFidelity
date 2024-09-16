@@ -1,3 +1,5 @@
+<<<<<<< Updated upstream
+=======
 # Logs
 logs
 *.log
@@ -41,7 +43,7 @@ build/Release
 node_modules/
 jspm_packages/
 
-# TypeScript v1 declaration files
+# TypeScript declaration files
 typings/
 
 # TypeScript cache
@@ -102,3 +104,4 @@ dist
 
 # TernJS port file
 .tern-port
+>>>>>>> Stashed changes

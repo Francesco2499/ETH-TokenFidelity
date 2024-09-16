@@ -2,7 +2,7 @@
 
 const solc = require("solc");
 const fs = require("fs");
-const Web3 = require("Web3");
+const {Web3} = require('web3')
 const env = require('../config/env.js');
 var path = require("path");
 const debug = require('debug')('app:config:smartContract');
@@ -27,11 +27,10 @@ class Coin {
     }
 
     // Function used to init web3
-    init(){
+    async init(){
         this.web3 = new Web3(new Web3.providers.HttpProvider(env.PROVIDER));
 
         var file = fs.readFileSync(path.resolve(__dirname, "FidelityCoin.sol")).toString();
-        console.log(file);
 
         var input = {
             language: "Solidity",
@@ -56,11 +55,22 @@ class Coin {
         this.bytecode = output.contracts["FidelityCoin.sol"]["FidelityCoin"].evm.bytecode.object;
         debug("Bytecode: " + this.bytecode);
         debug("ABI: " + this.ABI);
+        const accounts = await this.web3.eth.getAccounts();
+        if (accounts[0]) {
+            this.mainAccount = accounts[0];
+        }
+        /*console.log('Istanza', this.web3);
+        this.web3.eth.net.isListening()
+            .then(() => console.log('Connected to provider'))
+            .catch(e => console.log('Something went wrong', e));
 
         this.web3.eth.getAccounts().then((accounts) => {
             debug("Accounts: " + accounts);
             this.mainAccount = accounts[0]; // Assuming the first account is the contract deployer
-        });
+        })
+        .catch(err => {
+            console.log(err);
+        });;*/
 
         // Set the contract address (already deployed)
         this.contractAddress = env.CONTRACT_ADDRESS; // Add this to your env file
@@ -96,7 +106,7 @@ class Coin {
         }
 
         var contract = new this.web3.eth.Contract(this.ABI, this.contractAddress);
-        return await contract.methods.mint(receiver, amount).send({ from: this.mainAccount, gas: 470000 }, (err, data) => {
+        return await contract.methods.mint(receiver, amount).send({ from: this.mainAccount, gas: 6721975, gasPrice: 20000000000 }, (err, data) => {
             debug("-------------- MINT --------------");
             debug(data);
             debug("-------------------------------------");
@@ -105,24 +115,22 @@ class Coin {
     }
 
     // Function used to transfer tokens
-    async transferTokens(receiver, amount) {
-        if (!isValidAddress(receiver)) {
-            debug("Invalid address");
-            return false;
-        }
-
-        if (!isValidAmount(amount)) {
-            debug("Invalid amount");
-            return false;
-        }
-
+    async transferTokens(sender, privateKey, recipient, amount) {
         var contract = new this.web3.eth.Contract(this.ABI, this.contractAddress);
-        return await contract.methods.send(receiver, amount).send({ from: this.mainAccount, gas: 470000 }, (err, data) => {
-            debug("-------------- SEND --------------");
-            debug(data);
-            debug("-------------------------------------");
-            return data;
-        });
+
+        //const amountInWei = this.web3.utils.toWei(amount, 'ether');
+        const data = contract.methods.transfer(recipient, amount).encodeABI();
+    
+        const tx = {
+            from: sender,
+            to: this.contractAddress,
+            gas: 6721975, gasPrice: 20000000000,
+            data: data
+        };
+    
+        const signedTx = await this.web3.eth.accounts.signTransaction(tx, privateKey);
+        return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+    
     }
 }
 
