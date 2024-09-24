@@ -133,7 +133,7 @@ class Coin {
         return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
     
     }
-}cfdd
+}
 
 // Init coin class element and export
 var coin = new Coin();
