@@ -73,7 +73,8 @@ class Coin {
         });;*/
 
         // Set the contract address (already deployed)
-        this.contractAddress = env.CONTRACT_ADDRESS; // Add this to your env file
+        this.contractAddress = env.CONTRACT_ADDRESS;
+        this.privateKey = env.PRIVATE_KEY // Add this to your env file
     }
 
     // Function used to get balances
@@ -115,20 +116,20 @@ class Coin {
     }
 
     // Function used to transfer tokens
-    async transferTokens(sender, privateKey, recipient, amount) {
+    async transferTokens(recipient, amount) {
         var contract = new this.web3.eth.Contract(this.ABI, this.contractAddress);
 
         //const amountInWei = this.web3.utils.toWei(amount, 'ether');
         const data = contract.methods.transfer(recipient, amount).encodeABI();
     
         const tx = {
-            from: sender,
+            from: this.mainAccount,
             to: this.contractAddress,
             gas: 6721975, gasPrice: 20000000000,
             data: data
         };
     
-        const signedTx = await this.web3.eth.accounts.signTransaction(tx, privateKey);
+        const signedTx = await this.web3.eth.accounts.signTransaction(tx, this.privateKey);
         return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
     
     }
